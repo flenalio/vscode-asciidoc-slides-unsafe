@@ -52,7 +52,7 @@ export type RevealConfiguration = {
 
 function docAccessor(asciidocText: string, docDir: string) {
 
-    const doc: Asciidoctor.Document = asciidoctor.load(asciidocText, {safe: 'safe', header_footer: true, attributes: {docDir}})
+    const doc: Asciidoctor.Document = asciidoctor.load(asciidocText, {safe: 'unsafe', header_footer: true, attributes: {docDir}})
     return {
         getAttributeOrDefault: (key: string, defaultValue?: string) => {
             return doc.hasAttribute(key) ? doc.getAttribute(key) : defaultValue
@@ -86,7 +86,7 @@ export class RevealSlides {
     }
 
     private convertToRevealJsSlides(asciidocText: string) {
-        return asciidoctor.convert(asciidocText, { safe: 'safe', backend: 'revealjs', attributes: {docDir: this.absoluteDocumentDirectory}}) as string
+        return asciidoctor.convert(asciidocText, { safe: 'unsafe', backend: 'revealjs', attributes: {docDir: this.absoluteDocumentDirectory}}) as string
     }
 
     private extractAsciidocAttributes(asciidocText: string) {
@@ -140,7 +140,7 @@ export class RevealSlides {
     }
 
     private getSlideIdUnderCursor (asciidocText: string, lineNumber: number) {    
-        const doc = asciidoctor.load(asciidocText, {safe: 'safe', header_footer: true, sourcemap: true}) as Asciidoctor.Document
+        const doc = asciidoctor.load(asciidocText, {safe: 'unsafe', header_footer: true, sourcemap: true}) as Asciidoctor.Document
 
         try{
             const sections = doc.getSections()
@@ -194,7 +194,7 @@ export class RevealSlides {
             imagesdir: this.absoluteImagesDir
         }
         return asciidoctor.convert(this.editor.document.getText(), {
-            safe: 'safe',
+            safe: 'unsafe',
             backend: 'revealjs',
             attributes
         }) as string
